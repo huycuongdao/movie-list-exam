@@ -63,14 +63,16 @@ const MovieListPage = () => {
             placeholder="Search Movies"
             bg="white"
           />
-          <InputRightElement width="4.5rem">
-            <IconButton
-              onClick={handleClearSearch}
-              aria-label="Clear Search"
-              icon={<RiCloseFill />}
-              size="sm"
-            />
-          </InputRightElement>
+          {isSearching && (
+            <InputRightElement width="4.5rem">
+              <IconButton
+                onClick={handleClearSearch}
+                aria-label="Clear Search"
+                icon={<RiCloseFill />}
+                size="sm"
+              />
+            </InputRightElement>
+          )}
         </InputGroup>
 
         {/* ----- Movie List (Popular movies) ------ */}

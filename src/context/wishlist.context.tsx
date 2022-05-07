@@ -1,4 +1,5 @@
 import { ComponentType, createContext, PropsWithChildren, useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 import { Movie } from "../types/movie";
 
 interface WishListContext {
@@ -16,7 +17,7 @@ export const ChapterEditorPageContext = createContext<WishListContext>(initialCo
 const WishListContextProvider = (props: PropsWithChildren<{}>) => {
   const { children } = props;
 
-  const [wishlist, setWishlist] = useState<Movie[]>([]);
+  const [wishlist, setWishlist] = useLocalStorage<Movie[]>("movie-wish-list", []);
 
   const updateWishlist = (movie: Movie) => {
     const index = wishlist.findIndex((_movie) => _movie.id === movie.id);
