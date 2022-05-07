@@ -12,6 +12,8 @@ interface MovieListProps {
   onClickLoadMore: () => void;
   fetchStatus: QueryStatus;
   isFetchingNextPage: boolean;
+  wishlist: Movie[];
+  updateWishlist: (movie: Movie) => void;
   hasNextPage?: boolean;
   emptyListText?: string;
 }
@@ -19,6 +21,7 @@ interface MovieListProps {
 export const MOVIE_LIST_CLASSNAME = "movie-list";
 
 const MovieList = (props: MovieListProps) => {
+  // ------------------------------------------------------------------------------------------
   const {
     //
     title,
@@ -29,7 +32,10 @@ const MovieList = (props: MovieListProps) => {
     onClickLoadMore,
     isFetchingNextPage,
     hasNextPage,
+    wishlist,
+    updateWishlist,
   } = props;
+  // ------------------------------------------------------------------------------------------
 
   const hasTitles = movies.length > 0 && fetchStatus === "success";
   const emptyTitles = movies.length === 0 && fetchStatus === "success";
@@ -62,7 +68,16 @@ const MovieList = (props: MovieListProps) => {
           spacing="8px"
         >
           {movies.map((movie) => {
-            return <MovieItem movie={movie} key={movie.id} />;
+            const isAddedToWishlist = wishlist.findIndex((_movie) => _movie.id === movie.id) >= 0;
+
+            return (
+              <MovieItem
+                isAddedToWishlist={isAddedToWishlist}
+                updateWishlist={updateWishlist}
+                movie={movie}
+                key={movie.id}
+              />
+            );
           })}
 
           {/* ----- Load More Button UI (Bonus) ------ */}

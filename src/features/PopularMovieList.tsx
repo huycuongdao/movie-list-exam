@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useMemo } from "react";
 import { RiFireFill } from "react-icons/ri";
 import MovieList from "../components/MovieList";
+import { ChapterEditorPageContext } from "../context/wishlist.context";
 import useGetPopularMovies from "../queries/useGetPopularMovies";
 import { Movie } from "../types/movie";
 
 const PopularMovieList = React.memo(() => {
   const { data, status, isFetchingNextPage, hasNextPage, fetchNextPage } = useGetPopularMovies();
+
+  const { wishlist, updateWishlist } = useContext(ChapterEditorPageContext);
 
   const movies = useMemo(() => {
     const _movies: Movie[] = [];
@@ -27,6 +30,8 @@ const PopularMovieList = React.memo(() => {
       onClickLoadMore={fetchNextPage}
       isFetchingNextPage={isFetchingNextPage}
       hasNextPage={hasNextPage}
+      wishlist={wishlist}
+      updateWishlist={updateWishlist}
     />
   );
 });

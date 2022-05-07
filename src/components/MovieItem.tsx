@@ -5,13 +5,13 @@ import { Movie } from "../types/movie";
 
 interface MovieItemProps {
   movie: Movie;
+  isAddedToWishlist: boolean;
+  updateWishlist: (movie: Movie) => void;
 }
 
 const MovieItem = (props: MovieItemProps) => {
-  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
-
-  const { movie } = props;
-  const { title, release_date, wishlist_added } = movie;
+  const { movie, isAddedToWishlist, updateWishlist } = props;
+  const { title, release_date } = movie;
 
   return (
     <Flex
@@ -35,11 +35,11 @@ const MovieItem = (props: MovieItemProps) => {
       <IconButton
         variant="ghost"
         colorScheme="pink"
-        icon={wishlist_added ? <RiHeartFill /> : <RiHeartLine />}
+        icon={isAddedToWishlist ? <RiHeartFill /> : <RiHeartLine />}
         aria-label="edit"
         _focus={{ outline: "none" }}
         isRound
-        onClick={() => setIsAddedToWishlist(!isAddedToWishlist)}
+        onClick={() => updateWishlist(movie)}
       />
     </Flex>
   );

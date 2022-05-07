@@ -13,9 +13,10 @@ import {
 import { useCallback, useRef, useState } from "react";
 import { RiArrowUpLine, RiCloseFill, RiHeartLine, RiSearchLine } from "react-icons/ri";
 import { MOVIE_LIST_CLASSNAME } from "../components/MovieList";
-import WishListModal from "../components/WishListModal";
+import WishListModal from "../features/WishListModal";
 import PopularMovieList from "../features/PopularMovieList";
 import SearchResultList from "../features/SearchResultList";
+import { withWishlistContext } from "../context/wishlist.context";
 
 let SEARCH_TIMEOUT: number | null = null;
 const SEARCH_DEBOUNCE_TIME = 500;
@@ -100,4 +101,4 @@ const MovieListPage = () => {
   );
 };
 
-export default MovieListPage;
+export default withWishlistContext(MovieListPage);

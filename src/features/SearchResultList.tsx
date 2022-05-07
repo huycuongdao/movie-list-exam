@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useMemo } from "react";
 import { RiFileList3Line } from "react-icons/ri";
 import MovieList from "../components/MovieList";
+import { ChapterEditorPageContext } from "../context/wishlist.context";
 import useGetSearchResults from "../queries/useGetSearchResults";
 import { Movie } from "../types/movie";
 
@@ -15,6 +16,8 @@ const SearchResultList = React.memo((props: SearchResultListProps) => {
   const { data, status, isFetchingNextPage, hasNextPage, fetchNextPage } = useGetSearchResults({
     searchText,
   });
+
+  const { wishlist, updateWishlist } = useContext(ChapterEditorPageContext);
 
   const movies = useMemo(() => {
     const _movies: Movie[] = [];
@@ -36,6 +39,8 @@ const SearchResultList = React.memo((props: SearchResultListProps) => {
       isFetchingNextPage={isFetchingNextPage}
       emptyListText="No matched result."
       hasNextPage={hasNextPage}
+      wishlist={wishlist}
+      updateWishlist={updateWishlist}
     />
   );
 });
