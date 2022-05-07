@@ -1,5 +1,5 @@
 import React from "react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { RiFireFill } from "react-icons/ri";
 import MovieList from "../components/MovieList";
 import useGetPopularMovies from "../queries/useGetPopularMovies";

@@ -1,6 +1,6 @@
-import { Flex, Stack, Button, Center, Box, Text, IconButton, Spinner } from "@chakra-ui/react";
-import { ReactNode, useState } from "react";
-import { RiAlertLine, RiFireFill, RiHeartFill, RiHeartLine, RiInboxLine } from "react-icons/ri";
+import { Flex, Stack, Button, Center, Box, Spinner } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { RiAlertLine, RiInboxLine } from "react-icons/ri";
 import { QueryStatus } from "react-query";
 import { Movie } from "../types/movie";
 import MovieItem from "./MovieItem";
@@ -56,24 +56,18 @@ const MovieList = (props: MovieListProps) => {
           })}
 
           {/* ----- Load More Button UI (Bonus) ------ */}
-          {!isFetchingNextPage && hasNextPage && (
+          {hasNextPage && (
             <Center>
               <Button
                 variant="ghost"
                 size="md"
                 colorScheme="blackAlpha"
                 onClick={onClickLoadMore}
-                isLoading={false} // set true while loading data
+                isLoading={isFetchingNextPage}
                 loadingText="Loading"
               >
                 Load More
               </Button>
-            </Center>
-          )}
-
-          {isFetchingNextPage && (
-            <Center py="32px">
-              <Spinner color="pink.600" />
             </Center>
           )}
         </Stack>

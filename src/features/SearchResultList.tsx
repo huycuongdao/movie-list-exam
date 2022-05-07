@@ -1,6 +1,6 @@
 import React from "react";
-import { useMemo, useState } from "react";
-import { RiFileList3Line, RiFireFill } from "react-icons/ri";
+import { useMemo } from "react";
+import { RiFileList3Line } from "react-icons/ri";
 import MovieList from "../components/MovieList";
 import useGetSearchResults from "../queries/useGetSearchResults";
 import { Movie } from "../types/movie";

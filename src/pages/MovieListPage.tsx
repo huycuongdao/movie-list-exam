@@ -90,9 +90,7 @@ const MovieListPage = () => {
         aria-label="edit"
         _focus={{ outline: "none" }}
         isRound
-        onClick={() => {
-          // TODO: Go to top
-        }}
+        onClick={() => {}}
       />
     </Box>
   );
