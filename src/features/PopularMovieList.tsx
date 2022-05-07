@@ -1,23 +1,26 @@
-import { useState } from "react";
+import React from "react";
+import { useMemo, useState } from "react";
 import { RiFireFill } from "react-icons/ri";
 import MovieList from "../components/MovieList";
 import useGetPopularMovies from "../queries/useGetPopularMovies";
 import { Movie } from "../types/movie";
 
-const PopularMovieList = () => {
-  const [page, setPage] = useState<number>(1);
-
+const PopularMovieList = React.memo(() => {
   const { data, status, isFetchingNextPage, fetchNextPage } = useGetPopularMovies();
 
-  const movies: Movie[] = [];
+  const movies = useMemo(() => {
+    const _movies: Movie[] = [];
 
-  data?.pages.forEach((page) => {
-    movies.push(...page.results);
-  });
+    data?.pages.forEach((page) => {
+      _movies.push(...page.results);
+    });
+
+    return _movies;
+  }, [data]);
 
   return (
     <MovieList
-      movies={movies}
+      movies={movies || []}
       title="Popular movies"
       titleIcon={<RiFireFill />}
       fetchStatus={status}
@@ -25,6 +28,6 @@ const PopularMovieList = () => {
       isFetchingNextPage={isFetchingNextPage}
     />
   );
-};
+});
 
 export default PopularMovieList;
