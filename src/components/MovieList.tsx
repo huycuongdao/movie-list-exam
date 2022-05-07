@@ -16,6 +16,8 @@ interface MovieListProps {
   emptyListText?: string;
 }
 
+export const MOVIE_LIST_CLASSNAME = "movie-list";
+
 const MovieList = (props: MovieListProps) => {
   const {
     //
@@ -50,7 +52,15 @@ const MovieList = (props: MovieListProps) => {
 
       {/* ----- Movie List ------ */}
       {hasTitles && (
-        <Stack w="full" minH="0" pb="32px" flex={1} overflowY="auto" spacing="8px">
+        <Stack
+          className={MOVIE_LIST_CLASSNAME}
+          w="full"
+          minH="0"
+          pb="32px"
+          flex={1}
+          overflowY="auto"
+          spacing="8px"
+        >
           {movies.map((movie) => {
             return <MovieItem movie={movie} key={movie.id} />;
           })}

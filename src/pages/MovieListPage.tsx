@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useRef, useState } from "react";
 import { RiArrowUpLine, RiCloseFill, RiHeartLine, RiSearchLine } from "react-icons/ri";
+import { MOVIE_LIST_CLASSNAME } from "../components/MovieList";
 import WishListModal from "../components/WishListModal";
 import PopularMovieList from "../features/PopularMovieList";
 import SearchResultList from "../features/SearchResultList";
@@ -90,7 +91,10 @@ const MovieListPage = () => {
         aria-label="edit"
         _focus={{ outline: "none" }}
         isRound
-        onClick={() => {}}
+        onClick={() => {
+          const movieListDiv = document.querySelector(`.${MOVIE_LIST_CLASSNAME}`);
+          if (movieListDiv) movieListDiv.scrollTop = 0;
+        }}
       />
     </Box>
   );
