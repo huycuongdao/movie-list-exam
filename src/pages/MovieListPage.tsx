@@ -8,20 +8,38 @@ import {
   InputGroup,
   InputLeftElement,
   Input,
+  InputRightElement,
 } from "@chakra-ui/react";
-import {
-  RiArrowUpLine,
-  RiFileList3Line,
-  RiFireFill,
-  RiHeartLine,
-  RiSearchLine,
-} from "react-icons/ri";
-import MovieList from "../components/MovieList";
+import { useCallback, useRef, useState } from "react";
+import { RiArrowUpLine, RiCloseFill, RiHeartLine, RiSearchLine } from "react-icons/ri";
 import WishListModal from "../components/WishListModal";
 import PopularMovieList from "../features/PopularMovieList";
+import SearchResultList from "../features/SearchResultList";
+
+let SEARCH_TIMEOUT: number | null = null;
+const SEARCH_DEBOUNCE_TIME = 500;
 
 const MovieListPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchText, setSearchText] = useState<string>();
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  const handleSearchTextChange = useCallback((e) => {
+    if (SEARCH_TIMEOUT !== null) clearTimeout(SEARCH_TIMEOUT);
+
+    SEARCH_TIMEOUT = setTimeout(() => {
+      setSearchText(e.target.value);
+    }, SEARCH_DEBOUNCE_TIME);
+  }, []);
+
+  const handleClearSearch = useCallback(() => {
+    setSearchText("");
+    if (searchRef.current) {
+      searchRef.current.value = "";
+    }
+  }, []);
+
+  const isSearching = !!searchText;
 
   return (
     <Box bgColor="#f3f3f3" h="100vh">
@@ -32,22 +50,32 @@ const MovieListPage = () => {
             Wishlist
           </Button>
         </Flex>
+
+        {/* SEARCH BOX */}
         <InputGroup mb="16px">
           <InputLeftElement pointerEvents="none" color="gray.500" children={<RiSearchLine />} />
-          <Input type="tel" placeholder="Search Movies" bg="white" />
+          <Input
+            ref={searchRef}
+            onChange={handleSearchTextChange}
+            type="tel"
+            placeholder="Search Movies"
+            bg="white"
+          />
+          <InputRightElement width="4.5rem">
+            <IconButton
+              onClick={handleClearSearch}
+              aria-label="Clear Search"
+              icon={<RiCloseFill />}
+              size="sm"
+            />
+          </InputRightElement>
         </InputGroup>
 
         {/* ----- Movie List (Popular movies) ------ */}
-        <PopularMovieList />
+        {!isSearching && <PopularMovieList />}
 
         {/* ----- Search Result UI ------ */}
-        {/* <MovieList
-          movies={[]}
-          title="Search Result"
-          titleIcon={<RiFileList3Line />}
-          emptyListText="No Matched result."
-        /> */}
-
+        {isSearching && <SearchResultList searchText={searchText} />}
       </Flex>
 
       <WishListModal isOpen={isOpen} onClose={onClose} />

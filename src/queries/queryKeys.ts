@@ -1,0 +1,4 @@
+export const QUERY_KEYS = {
+  SEARCH_MOVE: "SEARCH_MOVE",
+  GET_POPULAR: "GET_POPULAR",
+};

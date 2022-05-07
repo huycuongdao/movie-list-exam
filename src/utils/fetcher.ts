@@ -11,6 +11,10 @@ export const fetcher = async <T>(endpoint: string, query: string = ""): Promise<
       method: "GET",
     });
 
+    if (response.status >= 400) {
+      throw new Error("Fail to fetch: " + endpoint);
+    }
+
     const body = await response.json();
 
     return body;

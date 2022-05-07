@@ -12,6 +12,7 @@ interface MovieListProps {
   onClickLoadMore: () => void;
   fetchStatus: QueryStatus;
   isFetchingNextPage: boolean;
+  hasNextPage?: boolean;
   emptyListText?: string;
 }
 
@@ -25,6 +26,7 @@ const MovieList = (props: MovieListProps) => {
     fetchStatus,
     onClickLoadMore,
     isFetchingNextPage,
+    hasNextPage,
   } = props;
 
   const hasTitles = movies.length > 0 && fetchStatus === "success";
@@ -54,7 +56,7 @@ const MovieList = (props: MovieListProps) => {
           })}
 
           {/* ----- Load More Button UI (Bonus) ------ */}
-          {!isFetchingNextPage && (
+          {!isFetchingNextPage && hasNextPage && (
             <Center>
               <Button
                 variant="ghost"

@@ -3,7 +3,7 @@ import { Movie } from "../types/movie";
 import { fetcher } from "../utils/fetcher";
 import { QUERY_KEYS } from "./queryKeys";
 
-const API_ENDPOINT = "/movie/popular";
+const API_ENDPOINT = "/search/movie";
 
 interface Response {
   page: number;
@@ -12,11 +12,11 @@ interface Response {
   total_results: number;
 }
 
-const useGetPopularMovies = () =>
+const useGetSearchResults = ({ searchText }: { searchText?: string }) =>
   useInfiniteQuery(
-    QUERY_KEYS.GET_POPULAR,
+    [QUERY_KEYS.SEARCH_MOVE, searchText],
     ({ pageParam = 1 }): Promise<Response> => {
-      return fetcher(API_ENDPOINT, `&page=${pageParam}`);
+      return fetcher(API_ENDPOINT, `&page=${pageParam}&query=${encodeURIComponent(searchText || "")}`);
     },
     {
       getNextPageParam: (lastPage) => {
@@ -26,7 +26,8 @@ const useGetPopularMovies = () =>
 
         return (lastPage?.page || 1) + 1;
       },
+      enabled: !!searchText,
     },
   );
 
-export default useGetPopularMovies;
+export default useGetSearchResults;
